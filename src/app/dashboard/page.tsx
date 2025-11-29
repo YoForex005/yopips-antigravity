@@ -9,6 +9,7 @@ export default function Dashboard() {
     const [recentActivity, setRecentActivity] = useState<any[]>([]);
     const [userStats, setUserStats] = useState({ balance: 0, invested: 0, equity: 0 });
     const [loading, setLoading] = useState(true);
+    const [assets, setAssets] = useState<any[]>([]);
 
     // Fetch Live Data
     useEffect(() => {
@@ -28,6 +29,7 @@ export default function Dashboard() {
 
                 setMarketData({ goldPrice: market.goldPrice, pnl: market.pnl });
                 setRecentActivity(tx.slice(0, 5));
+                setAssets(invest.assets || []);
 
                 // Calculate Equity
                 const investedAmount = invest.investments.reduce((sum: number, i: any) => sum + i.amount, 0);
@@ -52,6 +54,12 @@ export default function Dashboard() {
     }, []);
 
     if (loading) return <div className="text-[var(--color-primary)] font-mono animate-pulse p-8">INITIALIZING_DASHBOARD_MODULES...</div>;
+
+    // Calculate Transparency Metrics
+    const totalGlobalAUM = assets.reduce((acc, asset) => acc + (asset.totalPoolSize || 0), 0);
+    const avgFloatingPnl = assets.length > 0
+        ? assets.reduce((acc, asset) => acc + (asset.currentFloating || 0), 0) / assets.length
+        : 0;
 
     return (
         <div className="space-y-8">
@@ -108,18 +116,21 @@ export default function Dashboard() {
                     <div className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">Realized_Profit_Today</div>
                 </div>
 
-                {/* Active Pools */}
+                {/* Active Pools (Transparency) */}
                 <div className="card group hover:border-blue-500 transition-colors duration-300">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="text-[var(--color-text-secondary)] text-xs uppercase tracking-widest">Active_Pools</div>
+                        <div className="text-[var(--color-text-secondary)] text-xs uppercase tracking-widest">Global_Liquidity</div>
                         <div className="p-2 border border-blue-500/30 bg-blue-500/5 text-blue-500">
                             <Cpu size={18} />
                         </div>
                     </div>
                     <div className="text-3xl font-bold text-white mb-2 tracking-tighter font-mono">
-                        {userStats.invested > 0 ? "3" : "0"}
+                        ${(totalGlobalAUM / 1000000).toFixed(1)}M
                     </div>
-                    <div className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">Strategy_Deployed</div>
+                    <div className="flex justify-between items-center text-xs">
+                        <span className="text-[var(--color-text-secondary)] uppercase tracking-wider">Avg_Floating_PnL</span>
+                        <span className="text-[var(--color-success)] font-bold">+{avgFloatingPnl.toFixed(2)}%</span>
+                    </div>
                 </div>
             </div>
 
