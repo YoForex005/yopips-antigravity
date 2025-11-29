@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("investor") // investor, admin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pool {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   // Bonds, Equities, Gold, Mixed
+  balance     Float
+  members     Int
+  updatedAt   DateTime @updatedAt
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  poolId    Int
+  amount    Float
+  userName  String
+  timestamp DateTime @default(now())
+}
+
+model Log {
+  id        String   @id @default(uuid())
+  message   String
+  type      String   // INFO, ALERT, EXEC
+  timestamp DateTime @default(now())
+}

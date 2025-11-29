@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+:root {
+  /* Cyber-Institutional Theme */
+  --color-bg: #030303;
+  /* Void Black */
+  --color-bg-secondary: #0a0a0a;
+  /* Near Black */
+  --color-bg-tertiary: #111111;
+  /* Dark Gray */
+
+  --color-primary: #FFD700;
+  /* Cyber Gold */
+  --color-primary-hover: #E6C200;
+
+  --color-text: #E0E0E0;
+  /* Off White */
+  --color-text-secondary: #888888;
+  /* Gray */
+  --color-text-muted: #444444;
+  /* Dark Gray */
+
+  --color-success: #00FF41;
+  /* Terminal Green */
+  --color-danger: #FF003C;
+  /* Cyber Red */
+
+  --border-color: #333333;
+  --card-bg: rgba(10, 10, 10, 0.6);
+
+  --font-main: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] font-mono antialiased selection:bg-[var(--color-primary)] selection:text-black;
+    background-image:
+      linear-gradient(rgba(10, 10, 10, 0.8) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.8) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: -1px -1px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-[var(--card-bg)] border border-[var(--border-color)] backdrop-blur-md relative overflow-hidden;
+  }
+
+  .card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-primary)] opacity-50;
+  }
+
+  .card::after {
+    content: '';
+    @apply absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-primary)] opacity-50;
+  }
+
+  .btn {
+    @apply px-6 py-3 font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center relative overflow-hidden;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  .btn-primary {
+    @apply bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)];
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  }
+
+  .btn-outline {
+    @apply border border-[var(--border-color)] text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] bg-transparent;
+  }
+
+  .input-field {
+    @apply w-full bg-black border border-[var(--border-color)] px-4 py-3 text-[var(--color-primary)] focus:outline-none focus:border-[var(--color-primary)] transition-all font-mono placeholder-gray-700;
+  }
+
+  .input-field:focus {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+
+  .badge {
+    @apply px-2 py-0.5 text-xs font-bold uppercase tracking-wider border;
+  }
+}
+
+/* Futuristic Utilities */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.border-glow {
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.scanline {
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5) 51%);
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* Wizard Overlay Styles */
+.wizard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wizard-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wizard-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  position: relative;
+}
+
+.wizard-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.wizard-close:hover {
+  color: var(--color-primary);
+}
+
+.wizard-step {
+  display: none;
+  animation: fade-in 0.5s ease;
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+.wizard-option {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: #fff;
+  text-align: left;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wizard-option:hover {
+  background: rgba(252, 213, 53, 0.1);
+  border-color: var(--color-primary);
+  transform: translateX(10px);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease forwards;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.5s ease forwards;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
