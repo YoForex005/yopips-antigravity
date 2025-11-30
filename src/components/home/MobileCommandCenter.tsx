@@ -77,11 +77,6 @@ export default function MobileCommandCenter() {
                         </div>
                     </div>
 
-                    {/* Mobile Notification Image Overlay */}
-                    <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', zIndex: 3, width: '280px' }}>
-                        <img src="/payout-notification.png" alt="Payout Notification" style={{ width: '100%', borderRadius: '12px', boxShadow: '0 20px 50px rgba(0,0,0,0.8)', border: '2px solid var(--color-primary)' }} />
-                    </div>
-
                 </div>
             </div>
         </section>

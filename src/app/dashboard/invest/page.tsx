@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { Search, Filter, TrendingUp, Info, DollarSign, CheckCircle, AlertTriangle, BarChart2, Calculator } from "lucide-react";
 import { Asset } from "@/lib/db";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 export default function InvestPage() {
     const [assets, setAssets] = useState<Asset[]>([]);
@@ -96,7 +97,23 @@ export default function InvestPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredAssets.map(asset => (
-                    <div key={asset.id} className="card group hover:border-[var(--color-primary)] transition-all duration-300">
+                    <div
+                        key={asset.id}
+                        className={`card group transition-all duration-300 ${asset.verified
+                                ? 'border-[var(--color-primary)] shadow-[0_0_30px_rgba(255,215,0,0.2)] lg:col-span-2'
+                                : 'hover:border-[var(--color-primary)]'
+                            }`}
+                    >
+                        {/* Verification + Recommended Badges */}
+                        {asset.verified && (
+                            <div className="flex gap-2 mb-3">
+                                <VerifiedBadge source={asset.verificationSource} url={asset.verificationUrl} size="md" />
+                                <div className="inline-flex items-center gap-1.5 bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/30 px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
+                                    ⭐ RECOMMENDED
+                                </div>
+                            </div>
+                        )}
+
                         <div className="flex justify-between items-start mb-4">
                             <div className={`p-2 rounded border ${asset.type === 'SAFE'
                                 ? 'border-[var(--color-success)] text-[var(--color-success)] bg-[var(--color-success)]/10'
@@ -139,9 +156,18 @@ export default function InvestPage() {
                             </div>
                         </div>
 
+                        {!asset.verified && (
+                            <p className="text-[10px] text-[var(--color-text-secondary)] mb-3 italic">
+                                * Performance based on internal track record. Book a demo for details.
+                            </p>
+                        )}
+
                         <button
                             onClick={() => setSelectedAsset(asset)}
-                            className="btn btn-outline w-full group-hover:bg-[var(--color-primary)] group-hover:text-black group-hover:border-[var(--color-primary)] transition-all"
+                            className={`btn w-full transition-all ${asset.verified
+                                    ? 'btn-primary'
+                                    : 'btn-outline group-hover:bg-[var(--color-primary)] group-hover:text-black group-hover:border-[var(--color-primary)]'
+                                }`}
                         >
                             INITIATE_POSITION
                         </button>

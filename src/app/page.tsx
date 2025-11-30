@@ -6,6 +6,8 @@ import Wizard from "@/components/home/Wizard";
 import MobileCommandCenter from "@/components/home/MobileCommandCenter";
 import Proof from "@/components/home/Proof";
 import FAQ from "@/components/home/FAQ";
+import MyFXBookSection from "@/components/home/MyFXBookSection";
+import BookingModal from "@/components/BookingModal";
 
 
 
@@ -17,9 +19,16 @@ export default function Home() {
   // Wizard State
   const [isWizardOpen, setIsWizardOpen] = useState(false);
 
+  // Booking Modal State
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
 
   const openWizard = () => {
     setIsWizardOpen(true);
+  };
+
+  const openBooking = () => {
+    setIsBookingOpen(true);
   };
 
   const closeWizard = () => {
@@ -79,9 +88,15 @@ export default function Home() {
           <a href="/strategy" style={{ fontWeight: 500, fontSize: '0.9rem' }}>Strategy</a>
           <a href="/about" style={{ fontWeight: 500, fontSize: '0.9rem' }}>About</a>
           <a href="#proof" style={{ fontWeight: 500, fontSize: '0.9rem' }}>Proof</a>
-          <button className="btn btn-primary" onClick={() => window.location.href = '/login'}>
-            Institutional Login
-          </button>
+          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button className="btn btn-primary" onClick={() => window.location.href = '/login'}>
+              GET_STARTED
+            </button>
+            <button className="btn btn-outline" onClick={openBooking} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Calendar size={18} />
+              BOOK_DEMO
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -330,11 +345,6 @@ export default function Home() {
           <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '60px' }}>Track Record</h2>
           <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap', alignItems: 'center' }}>
 
-            {/* Chart Image */}
-            <div style={{ flex: 1, minWidth: '300px' }}>
-              <img src="/growth-chart.png" alt="Growth Chart" style={{ width: '100%', borderRadius: '12px', border: '1px solid #2b3139', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
-            </div>
-
             {/* Table */}
             <div style={{ flex: 1, minWidth: '300px' }}>
               <div style={{ overflowX: 'auto' }}>
@@ -545,8 +555,14 @@ export default function Home() {
 
       <Proof />
 
+      {/* MyFXBook Verified Performance */}
+      <MyFXBookSection />
+
       {/* Full Screen Wizard Overlay (Retained) */}
       <Wizard isOpen={isWizardOpen} onClose={closeWizard} />
+
+      {/* Booking/Calendly Modal */}
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
 
       {/* Footer */}
       <footer style={{ padding: '60px 0', borderTop: '1px solid #2b3139', textAlign: 'center', color: '#848e9c', background: '#0b0e11' }}>

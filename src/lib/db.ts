@@ -26,6 +26,9 @@ export interface Asset {
   description: string;
   totalPoolSize: number;
   currentFloating: number;
+  verified?: boolean; // Third-party verification
+  verificationSource?: string; // e.g., "MyFXBook"
+  verificationUrl?: string; // Link to verification
 }
 
 export interface Investment {
@@ -84,6 +87,20 @@ class MockDB {
     { id: "safe_12", name: "Precious Metals Debt", type: "SAFE", roi: 6, minInvestment: 100, description: "Secured lending to mining companies.", totalPoolSize: 10000000, currentFloating: 5.2 },
 
     // HIGH YIELD ASSETS (6-24% Variable)
+    // ⭐ VERIFIED GOLD TRADING - MyFXBook Audited
+    {
+      id: "gold_xauusd",
+      name: "Gold Trading (XAUUSD)",
+      type: "HIGH_YIELD",
+      roi: 24,
+      minInvestment: 100,
+      description: "AI-powered gold trading system with verified MyFXBook performance. Third-party audited results.",
+      totalPoolSize: 10000000,
+      currentFloating: 22.4,
+      verified: true,
+      verificationSource: "MyFXBook",
+      verificationUrl: "https://www.myfxbook.com/members/YoForexLLC/quantex-pro-ai/11789404"
+    },
     { id: "high_1", name: "Forex Scalping Bot", type: "HIGH_YIELD", roi: 24, minInvestment: 100, description: "High-frequency currency trading algorithm.", totalPoolSize: 5000000, currentFloating: 18.4 },
     { id: "high_2", name: "Crypto Arbitrage", type: "HIGH_YIELD", roi: 22, minInvestment: 100, description: "Exploiting price differences across exchanges.", totalPoolSize: 8000000, currentFloating: 21.2 },
     { id: "high_3", name: "DeFi Yield Farming", type: "HIGH_YIELD", roi: 20, minInvestment: 100, description: "Liquidity provision in decentralized protocols.", totalPoolSize: 12000000, currentFloating: 15.7 },

@@ -58,12 +58,6 @@ export default function Proof() {
                     </div>
 
                 </div>
-
-                {/* New Crypto Receipt Image */}
-                <div className="glass-card" style={{ padding: '0', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', boxShadow: 'none' }}>
-                    <img src="/usdt-receipt.png" alt="USDT Receipt" style={{ width: '100%', maxWidth: '350px', borderRadius: '12px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
-                </div>
-
             </div>
         </section>
     );
